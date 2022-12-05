@@ -1,17 +1,12 @@
-import { interval } from './config/config.js';
+import { time } from './config/config.js';
 import alert from './lib/Alert.js';
 import scan from './lib/Scan.js';
 
 const run = async () => {
-  const { ok, results } = await scan.machinesAreOnline();
-
-  if (!ok) {
-    alert.sendSMS('not all machines online');
-    return;
-  }
-
-  console.log('success:', results);
+  const results = await scan.areMachinesOnline();
+  if (results.ok) alert.reportMachinesOnline();
+  else alert.reportMachinesOffline();
 };
 
-console.log('running');
-setTimeout(run, interval);
+console.log(`[ starting ] mining-monitor   at: ${new Date().toLocaleString()}`);
+setInterval(run, time.scanInterval);

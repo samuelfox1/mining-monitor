@@ -6,7 +6,17 @@ const {
   env: { API_KEY, API_SECRET, VIRTUAL_NUMBER, TO_NUMBER, MACHINE_IPS },
 } = process;
 
-export const interval = 30 * 60000;
+const MINUTE = 60000;
+
+const SCAN_INTERVAL = 5;
+const REMIND_THRESHOLD = 30;
+const OFFLINE_THRESHOLD = 30;
+
+export const time = {
+  scanInterval: SCAN_INTERVAL * MINUTE,
+  remindThreshold: REMIND_THRESHOLD * MINUTE,
+  offlineThreshold: OFFLINE_THRESHOLD * MINUTE,
+};
 
 export const alert = {
   buildArgs: {
@@ -21,6 +31,6 @@ export const alert = {
   },
 };
 
-export const monitor = {
+export const scan = {
   machineIps: JSON.parse(MACHINE_IPS),
 };

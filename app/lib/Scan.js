@@ -1,37 +1,36 @@
 import findLocalDevice from 'local-devices';
 
-import { monitor as monitorConfig } from '../config/config.js';
+import { scan as scanConfig } from '../config/config.js';
 
 class Scan {
   constructor({ machineIps }) {
     if (!machineIps || !machineIps.length)
       throw new Error('must provide machine ip addresses');
-
     this.machineIps = machineIps;
   }
 
-  async machinesAreOnline() {
-    const results = await this.scan();
+  async areMachinesOnline() {
+    const online = await this.scanLocalNetwork();
     return {
-      ok: await this.validate(results),
-      results,
+      ok: await this.areAllMachinesOnline(online),
+      online,
     };
   }
 
-  async scan() {
+  async scanLocalNetwork() {
     const results = await Promise.all(
-      this.machineIps.map((ip) => this.ping(ip))
+      this.machineIps.map((ip) => this.pingMachineAt(ip))
     );
-    const filtered = results.filter((result) => !!result);
-    return filtered;
+    const online = results.filter((result) => !!result);
+    return online;
   }
 
-  async ping(ip) {
+  async pingMachineAt(ip) {
     return await findLocalDevice(ip);
   }
 
-  async validate(results) {
-    return results.length === this.machineIps.length;
+  async areAllMachinesOnline(online) {
+    return online.length === this.machineIps.length;
   }
 }
-export default new Scan(monitorConfig);
+export default new Scan(scanConfig);
