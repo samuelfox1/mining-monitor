@@ -13,7 +13,8 @@ class Scan {
     const online = await this.scanLocalNetwork();
     return {
       ok: await this.areAllMachinesOnline(online),
-      online,
+      date: new Date().toLocaleString(),
+      online: JSON.stringify(online),
     };
   }
 
