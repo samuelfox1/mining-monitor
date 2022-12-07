@@ -85,16 +85,12 @@ class Alert {
       const now = new Date();
       this.sendReminder(now);
     }, this.remindThreshold);
-
-    setTimeout(() => {
-      this.reportOnline();
-    }, 20000);
   }
 
   async sendSMS(text) {
     const args = { ...this.sendArgs, text };
     const response = await this.service.sms.send(args);
-    console.log(response);
+    console.log(JSON.stringify(response));
   }
 }
 
