@@ -8,9 +8,10 @@ const {
 
 const MINUTE = 60000;
 
-const SCAN_INTERVAL = 5;
+// time in minutes
+const SCAN_INTERVAL = 3;
 const REMIND_THRESHOLD = 30;
-const OFFLINE_THRESHOLD = 30;
+const OFFLINE_THRESHOLD = 60;
 
 export const time = {
   scanInterval: SCAN_INTERVAL * MINUTE,
