@@ -14,7 +14,7 @@ class Scan {
     return {
       ok: await this.areAllMachinesOnline(online),
       date: new Date().toLocaleString(),
-      online: JSON.stringify(online),
+      online,
     };
   }
 

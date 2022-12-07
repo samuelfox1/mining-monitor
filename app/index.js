@@ -4,7 +4,7 @@ import scan from './lib/Scan.js';
 
 const run = async () => {
   const results = await scan.areMachinesOnline();
-  console.log(results);
+  console.log(JSON.stringify(results));
   if (results.ok) alert.reportMachinesOnline();
   else alert.reportMachinesOffline();
   return true;
