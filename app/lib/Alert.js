@@ -33,11 +33,13 @@ class Alert {
   }
 
   async resolveAlert() {
+    if (this.hasAlertSent) {
+      const date = new Date().toLocaleString();
+      const message = `[ resolved ] machines online  at: ${date}`;
+      await this.sendSMS(message);
+    }
+
     this.resetAlertState();
-    const date = new Date().toLocaleString();
-    const message = `[ resolved ] machines online  at: ${date}`;
-    await this.sendSMS(message);
-    console.log(message);
   }
 
   async resetAlertState() {
@@ -68,13 +70,11 @@ class Alert {
       const message = `[ reminder ] machines offline since: ${this.offlineAt.toLocaleString()}`;
       this.setLastReminderAt(now);
       await this.sendSMS(message);
-      console.log(message);
     }
   }
 
   async triggerAlert() {
     const message = `[ trigger  ] machines offline at: ${this.offlineAt.toLocaleString()}`;
-    console.log(message);
     await this.sendSMS(message);
     this.setHasAlertSent(true);
     this.triggerReminderLoop();
@@ -88,6 +88,7 @@ class Alert {
   }
 
   async sendSMS(text) {
+    console.log(text);
     const args = { ...this.sendArgs, text };
     const response = await this.service.sms.send(args);
     console.log(JSON.stringify(response));
